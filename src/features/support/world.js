@@ -18,7 +18,7 @@ function World() {
 }
 
 function setupConfig(config) {
-  //config.update('service', 'memory');
+  config.update('cache', 'cache-memory');
 }
 
 function extendContainer() {

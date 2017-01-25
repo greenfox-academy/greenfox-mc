@@ -1,4 +1,4 @@
-import di from './container';
+//import di from './container';
 
 const path = require('path');
 require("babel-core/register");
