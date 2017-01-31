@@ -5,15 +5,15 @@
   "main": "index.js",
   "author": "",
   "scripts": {
-    "test": "npm-watch",
+    "test": "LAB_CONFIG=file npm-watch",
     "build": "babel ./src/server/ -d ./dist && webpack",
-    "test:all": "npm run test:unit && npm run test:feature",
-    "test:unit": "jest",
-    "test:unit-watch": "jest --watch",
-    "test:feature": "SUPPRESS_NO_CONFIG_WARNING=true ./node_modules/cucumber/bin/cucumber.js ./src/features --compiler es6:babel-core/register --require ./src/features/support/testSetup.js --require ./src/features",
-    "start": "PUBLIC_DIR='../client/public' nodemon src/server/server.js --ignore dist --ignore node_modules --exec babel-node",
+    "test:all": "LAB_CONFIG=file npm run test:unit && LAB_CONFIG=file npm run test:feature",
+    "test:unit": "LAB_CONFIG=file jest",
+    "test:unit-watch": "LAB_CONFIG=file jest --watch",
+    "test:feature": "LAB_CONFIG=file SUPPRESS_NO_CONFIG_WARNING=true ./node_modules/cucumber/bin/cucumber.js ./src/features --compiler es6:babel-core/register --require ./src/features/support/testSetup.js --require ./src/features",
+    "start": "LAB_CONFIG=file PUBLIC_DIR='../client/public' nodemon src/server/server.js --ignore dist --ignore node_modules --exec babel-node",
     "build-web": "webpack",
-    "serve": "PUBLIC_DIR='./public' node dist/server.js"
+    "serve": "LAB_CONFIG=file PUBLIC_DIR='./public' node dist/server.js"
   },
   "jest": {
     "testRegex": ".*\\.test\\.js$"
