@@ -18,6 +18,11 @@ app.use(function (req, res, next) {
 
 app.use('/', express.static(path.join(__dirname, process.env.PUBLIC_DIR)))
 
+app.get('/stats', (req, res) => {
+	const requestStats = monitor.getStatistic();
+    return res.send(Object.assign({}, requestStats));
+})
+
 app.listen(8080, function () {
     console.log('Server listening on port 8080!')
 })
