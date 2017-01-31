@@ -6,7 +6,7 @@ const tools = require('./tools');
 
 export default function() {
   this.World = World;
-};
+}
 
 function World() {
   this.context = {};
@@ -20,6 +20,7 @@ function World() {
 function setupConfig(config) {
   //config.update('service', 'memory');
   config.update('cache', 'memory');
+  config.update('monitor', 'memory');
 }
 
 function extendContainer() {
