@@ -12,14 +12,13 @@ app.use(bodyParser.json());
 
 app.use(function (req, res, next) {
   monitor.registerIncomingRequest(req.url, req.param, Date.now());
-  console.log(monitor.getStatistic().totalIncomingRequests);
   next()
 })
 
 app.use('/', express.static(path.join(__dirname, process.env.PUBLIC_DIR)))
 
-app.get('/stats', (req, res) => {
-	const requestStats = monitor.getStatistic();
+app.get('/stats', async (req, res) => {
+	const requestStats = await monitor.getStatistic();
     return res.send(Object.assign({}, requestStats));
 })
 

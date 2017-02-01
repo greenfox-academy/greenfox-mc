@@ -1,15 +1,14 @@
 'use strict'
 
-function Monitor() {
-  let requests = [];
-
-  function registerIncomingRequest(url, params, time) {
-    requests.push({url, params, time})
+function DBMonitor(cache) {
+  async function registerIncomingRequest(url, params, time) {
+	// TODO: should other data stored in cache/db/somewhere?
+	cache.increment('totalIncomingRequests', 1);
   }
 
-  function getStatistic() {
+  async function getStatistic() {
     return {
-      totalIncomingRequests: requests.length
+      totalIncomingRequests: await cache.get('totalIncomingRequests')
     }
   }
 
@@ -19,4 +18,5 @@ function Monitor() {
   });
 }
 
-module.exports = Monitor;
+DBMonitor.deps = ['cache'];
+module.exports = DBMonitor;
