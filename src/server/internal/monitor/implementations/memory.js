@@ -3,11 +3,11 @@
 function Monitor() {
   let requests = [];
 
-  function registerIncomingRequest(url, params, time) {
+  async function registerIncomingRequest(url, params, time) {
     requests.push({url, params, time})
   }
 
-  function getStatistic() {
+  async function getStatistic() {
     return {
       totalIncomingRequests: requests.length
     }
