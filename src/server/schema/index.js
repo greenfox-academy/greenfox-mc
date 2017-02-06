@@ -4,4 +4,16 @@ const schemas = {
 	User: UserSchema
 };
 
-export default schemas;
+function Schemas () {
+	function get (schemaName) {
+		if (schemas.hasOwnProperty(schemaName)) {
+			return schemas[schemaName];
+		}
+	}
+
+	return {
+		get
+	}
+}
+
+export default Schemas;
