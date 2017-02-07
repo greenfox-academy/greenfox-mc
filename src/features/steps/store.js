@@ -13,4 +13,15 @@ export default function () {
 
     expect(result).to.be.an('object');
   });
+
+  this.When('I call a query on the "$schemaName" schema', function (schemaName) {
+    const store = this.container.get('store');
+    this.context.schema = store.getSchema(schemaName);
+   
+  });
+
+  this.Then('I should get a Promise', async function () {
+     const queryResult = this.context.schema.query('{}');
+     expect(queryResult).to.be.a('promise');
+  });
 }

@@ -1,4 +1,5 @@
 import UserSchema from './user';
+import { graphql } from 'graphql';
 
 const schemas = {
 	User: UserSchema
@@ -7,7 +8,13 @@ const schemas = {
 function Schemas () {
 	function get (schemaName) {
 		if (schemas.hasOwnProperty(schemaName)) {
-			return schemas[schemaName];
+			const schema = schemas[schemaName];
+			return {
+				schema,
+				async query (query) {
+					return await graphql(schema, query);
+				}
+			}
 		}
 	}
 
