@@ -1,22 +1,27 @@
+import _ from 'lodash';
+
 'use strict';
 
 function MemoryDatabase() {
-    save() {
 
-    },
+    let db = [];
 
-    queryByUrl(url) {
+    function save(data) {
+        db.push(data);
+    }
 
-    },
-    
-    reset() {
+    function queryByUrl(url) {
+        return _.filter(db, 'url', url);
+    }
 
+    function reset() {
+        db = [];
     }
 
     return Object.freeze({
         save,
         queryByUrl,
-        reset   
+        reset
     })
 }
 
