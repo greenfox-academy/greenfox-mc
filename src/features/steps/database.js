@@ -8,11 +8,8 @@ export default function () {
 
         this.context.method = method;
         this.context.url = url;
-
-        await db.save({
-            method,
-            url
-        });
+        let result = await db.save({ method, url });
+        expect(result.length).to.be.above(0);
     });
 
     this.Then('it should be saved', async function () {

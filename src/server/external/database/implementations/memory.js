@@ -8,6 +8,7 @@ function MemoryDatabase() {
 
     function save(data) {
         db.push(data);
+        return this.queryByUrl(data.url);
     }
 
     function queryByUrl(url) {
