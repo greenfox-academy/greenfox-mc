@@ -10,8 +10,7 @@ export default function () {
     });
 
     this.After(async function () {
-        // const db = this.container.get('database');
-        // await db.reset();
+        const db = this.container.get('database');
+        await db.reset();
     })
-
 }

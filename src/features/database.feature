@@ -3,6 +3,6 @@ Feature: Database
   to save an incoming request
 
 Scenario: Save request
-  When a "POST" request comes in to "/ping"
+  When a request comes in to "/ping" url with "request body" body
   Then it should be saved
 

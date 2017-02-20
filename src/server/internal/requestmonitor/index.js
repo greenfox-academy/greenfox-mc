@@ -1,20 +1,20 @@
 
 function RequestMonitor(cache) {
 
-  async function registerIncomingRequest(url, params, time) {
-    await cache.increment('totalIncomingRequests', 1);
-  }
-
-  async function getStatistics() {
-    return {
-      totalIncomingRequests: await cache.get('totalIncomingRequests')
+    async function registerIncomingRequest(url, params, time) {
+        await cache.increment('totalIncomingRequests', 1);
     }
-  }
 
-  return Object.freeze({
-    registerIncomingRequest,
-    getStatistics
-  });
+    async function getStatistics() {
+        return {
+            totalIncomingRequests: await cache.get('totalIncomingRequests')
+        }
+    }
+
+    return Object.freeze({
+        registerIncomingRequest,
+        getStatistics
+    });
 }
 
 RequestMonitor.deps = ['cache'];

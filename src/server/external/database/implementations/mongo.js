@@ -7,17 +7,18 @@ mongoose.Promise = global.Promise;
 function MongoDatabase() {
 
     mongoose.connect('mongodb://localhost/test');
-    const RequestSchema = mongoose.Schema({
+
+    let RequestSchema = new mongoose.Schema({
         url: String,
-        requestData: String
+        body: String
     })
 
-    const RequestModel = mongoose.model('Request', RequestSchema);
+    let RequestModel = mongoose.model('Request', RequestSchema);
 
     async function save(data) {
         let request = new RequestModel({
-            url: data.urL,
-            requestData: data.requestData
+            url: data.url,
+            body: data.body
         })
         return request.save();
     }
