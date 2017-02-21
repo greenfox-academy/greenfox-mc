@@ -26,7 +26,6 @@ export default function () {
     });
 
     this.Then('I see at least "$value" requests in the statistics', async function (value) {
-        console.log(this.context.allRequests.data.requests)
         expect(this.context.allRequests.data.requests.length).to.eql(parseInt(value));
     });
 }
