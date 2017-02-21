@@ -16,11 +16,13 @@ function MongoDatabase() {
     let RequestModel = mongoose.model('Request', RequestSchema);
 
     async function save(data) {
-        let request = new RequestModel({
+        let model = new RequestModel({
             url: data.url,
             body: data.body
         })
-        return request.save();
+        let result = await model.save();
+        let resultModel = RequestModel.find({ _id: result._id })
+        return resultModel
     }
 
     async function queryByUrl(url) {
