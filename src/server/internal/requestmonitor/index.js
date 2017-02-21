@@ -1,22 +1,30 @@
 
-function RequestMonitor(cache) {
+function RequestMonitor(cache, store) {
 
-  async function registerIncomingRequest(url, params, time) {
-    await cache.increment('totalIncomingRequests', 1);
-  }
+    const RequestSchema = store.getSchema('Request');
 
-  async function getStatistics() {
-    return {
-      totalIncomingRequests: await cache.get('totalIncomingRequests')
+    async function registerIncomingRequest(url, params) {
+        await cache.increment('totalIncomingRequests', 1);
+        await RequestSchema.save(url, params);
     }
-  }
 
-  return Object.freeze({
-    registerIncomingRequest,
-    getStatistics
-  });
+    async function getStatistics() {
+        return {
+            totalIncomingRequests: await cache.get('totalIncomingRequests')
+        }
+    }
+
+    async function getAllRequests() {
+        return await RequestSchema.getAll()
+    }
+
+    return Object.freeze({
+        registerIncomingRequest,
+        getStatistics,
+        getAllRequests
+    });
 }
 
-RequestMonitor.deps = ['cache'];
+RequestMonitor.deps = ['cache', 'store'];
 
 module.exports = RequestMonitor;
