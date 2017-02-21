@@ -27,6 +27,10 @@ function MongoDatabase() {
         return await RequestModel.find({ url: url }).exec()
     }
 
+    async function queryAll() {
+        return await RequestModel.find().exec()
+    }
+
     async function reset() {
         RequestModel.remove({}, function (err) {
             console.log('collection removed')
@@ -36,6 +40,7 @@ function MongoDatabase() {
     return Object.freeze({
         save,
         queryByUrl,
+        queryAll,
         reset
     })
 }

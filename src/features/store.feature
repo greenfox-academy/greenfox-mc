@@ -9,5 +9,5 @@ Feature: Store
 
   Scenario: I can mutate a schema
     Given I have a registered schema "Request"
-    When I save "url" and "body" to the "Request" schema
-    Then I get a promise
+    When I save "/lol" and "request body" to the "Request" schema
+    Then I get a result with "/lol" and "request body" from the schema

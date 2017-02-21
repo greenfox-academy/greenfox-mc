@@ -2,50 +2,60 @@ import {
     GraphQLSchema,
     GraphQLObjectType,
     GraphQLString,
-    GraphQLNonNull
+    GraphQLList
 } from 'graphql';
 
-function Request() {
+function Request(database) {
+
+    let RequestType = new GraphQLObjectType({
+        name: 'Request',
+        fields: () => ({
+            url: {
+                type: GraphQLString
+            },
+            body: {
+                type: GraphQLString
+            }
+        })
+    })
+
     return new GraphQLSchema({
         query: new GraphQLObjectType({
             name: 'Query',
-            fields: {
-                url: {
-                    type: GraphQLString,
-                    resolve() {
-                        return 'value';
-                    }
-                },
-                body: {
-                    type: GraphQLString,
-                    resolve() {
-                        return 'value';
+            fields: () => ({
+                requests: {
+                    type: new GraphQLList(RequestType),
+                    resolve: async function () {
+                        let result = await database.queryAll();
+                        return result
                     }
                 }
-            }
+            })
         }),
         mutation: new GraphQLObjectType({
             name: 'Mutation',
             fields: {
                 saveRequest: {
+                    type: RequestType,
                     args: {
                         url: {
-                            type: new GraphQLNonNull(String)
+                            type: GraphQLString
                         },
                         body: {
-                            type: new GraphQLNonNull(String)
+                            type: GraphQLString
                         }
                     },
-                    resolve(root, args) {
-                        return new Promise((resolve, reject) => {
-                            // do the save here
-                            resolve(true);
+                    resolve: async function (root, args) {
+                        let result = await database.save({
+                            url: args.url,
+                            body: args.body
                         })
+                        return result;
                     }
                 }
             }
         })
     });
 }
-
+Request.deps = ['database'];
 module.exports = Request;

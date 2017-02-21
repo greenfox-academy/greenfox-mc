@@ -8,9 +8,24 @@ function Store(container) {
         async function mutation(mutator) {
             return await graphql(schema, mutator);
         }
+        async function save(url, params) {
+            let mutatorString = `
+            mutation M {
+                request: saveRequest(url: "${url}", body: "${params}") {
+                    url, body
+                }
+            }
+        `
+            return await this.mutation(mutatorString);
+        }
+        async function getAll() {
+            return await this.query(`{requests { url, body }}`)
+        }
         return Object.freeze({
+            getAll,
             query,
-            mutation
+            mutation,
+            save
         });
     }
 

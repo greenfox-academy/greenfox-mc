@@ -27,6 +27,10 @@ function MemoryDatabase() {
         return _.filter(db, 'url', url);
     }
 
+    function queryAll() {
+        return db
+    }
+
     function reset() {
         db = [];
     }
@@ -34,6 +38,7 @@ function MemoryDatabase() {
     return Object.freeze({
         save,
         queryByUrl,
+        queryAll,
         reset
     })
 }
