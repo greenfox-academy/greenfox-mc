@@ -20,13 +20,15 @@ module.exports = function () {
     this.When('I save "$url" and "$body" to the "$schema" schema', async function (url, body, schema) {
         const store = this.container.get('store');
         let requestSchema = store.getSchema(schema);
-        this.context.mutateResult = await requestSchema.save(url, body);
-        console.log(this.context.mutateResult)
+        await requestSchema.save(url, body);
+        this.context.mutateResult = await requestSchema.query(`{requests(url: "${url}"){
+            url, body
+        }}`);
     });
 
     this.Then('I get a result with "$url" and "$body" from the schema', function (url, body) {
-        expect(this.context.mutateResult.data.request.url).to.eql(`${url}`)
-        expect(this.context.mutateResult.data.request.body).to.eql(`${body}`)
+        expect(this.context.mutateResult.data.requests[0].url).to.eql(`${url}`)
+        expect(this.context.mutateResult.data.requests[0].body).to.eql(`${body}`)
     })
 }
 

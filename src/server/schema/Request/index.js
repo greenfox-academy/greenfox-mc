@@ -25,8 +25,21 @@ function Request(database) {
             fields: () => ({
                 requests: {
                     type: new GraphQLList(RequestType),
-                    resolve: async function () {
-                        let result = await database.queryAll();
+                    args: {
+                        url: {
+                            type: GraphQLString
+                        },
+                        body: {
+                            type: GraphQLString
+                        }
+                    },
+                    resolve: async function (root, args) {
+                        let result
+                        if (args.url) {
+                            result = await database.queryByUrl(args.url);
+                        } else {
+                            result = await database.queryAll();
+                        }
                         return result
                     }
                 }
