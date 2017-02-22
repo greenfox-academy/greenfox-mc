@@ -1,19 +1,27 @@
-import _ from 'lodash';
 const mongoose = require('mongoose');
+const mockgoose = require('mockgoose')
 mongoose.Promise = global.Promise;
+
+mockgoose(mongoose).then(function () {
+    mongoose.connect('mongodb://localhost/test');
+})
 
 'use strict';
 
 function MongoDatabase() {
 
-    mongoose.connect('mongodb://localhost/test');
-
-    let RequestSchema = new mongoose.Schema({
-        url: String,
-        body: String
+    const RequestSchema = new mongoose.Schema({
+        url: {
+            type: String,
+            required: true
+        },
+        body: {
+            type: String,
+            required: true
+        }
     })
 
-    let RequestModel = mongoose.model('Request', RequestSchema);
+    const RequestModel = mongoose.model('Request', RequestSchema);
 
     async function save(data) {
         let model = new RequestModel({
@@ -21,26 +29,30 @@ function MongoDatabase() {
             body: data.body
         })
         let result = await model.save();
-        let resultModel = RequestModel.find({ _id: result._id })
-        return resultModel
+        return RequestModel.find({ _id: result._id })
     }
 
-    async function queryByUrl(url) {
-        return await RequestModel.find({ url: url }).exec()
+    async function query(query) {
+        return await RequestModel.find(query).exec()
     }
 
-    async function queryAll() {
-        return await RequestModel.find().exec()
+    function queryByUrl(url) {
+        return this.query(url)
+    }
+
+    function queryAll() {
+        return this.query({})
     }
 
     async function reset() {
-        RequestModel.remove({}, function (err) {
+        RequestModel.remove({}, function () {
             console.log('collection removed')
         });
     }
 
     return Object.freeze({
         save,
+        query,
         queryByUrl,
         queryAll,
         reset

@@ -2,7 +2,8 @@ import {
     GraphQLSchema,
     GraphQLObjectType,
     GraphQLString,
-    GraphQLList
+    GraphQLList,
+    GraphQLNonNull
 } from 'graphql';
 
 function Request(database) {
@@ -11,10 +12,10 @@ function Request(database) {
         name: 'Request',
         fields: () => ({
             url: {
-                type: GraphQLString
+                type: new GraphQLNonNull(GraphQLString)
             },
             body: {
-                type: GraphQLString
+                type: new GraphQLNonNull(GraphQLString)
             }
         })
     })
@@ -59,11 +60,10 @@ function Request(database) {
                         }
                     },
                     resolve: async function (root, args) {
-                        let result = await database.save({
+                        return await database.save({
                             url: args.url,
                             body: args.body
                         })
-                        return result;
                     }
                 }
             }
