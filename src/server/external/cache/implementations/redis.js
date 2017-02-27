@@ -11,6 +11,11 @@ function RedisCache() {
     return Promise.resolve(parseInt(result));
   }
 
+	async function set(key, value) {
+		const result = await redis.set(key, value);
+		return Promise.resolve(result);
+	}
+
   async function increment(key, amount) {
     validate.string(
       key,
@@ -31,6 +36,7 @@ function RedisCache() {
 
   return Object.freeze({
     get: get,
+		set: set,
     increment,
     flushAll
   });
