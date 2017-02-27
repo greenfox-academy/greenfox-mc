@@ -23,6 +23,13 @@ app.use('/stats', async (req, res, next) => {
   res.send(result);
 });
 
+app.use('/recalculateRequests', async (req, res) => {
+	const recalculateRequests = container.get('recalculateRequests');
+	await recalculateRequests();
+	res.send('Cache recalculated');
+});
+
+
 app.use('/', express.static(path.join(__dirname, process.env.PUBLIC_DIR)))
 
 app.listen(8080, function () {
