@@ -11,6 +11,10 @@ function MemoryCache () {
     return _.get(cache, key, defaultValue);
   }
 
+	function set(key, value) {
+		return _.set(cache, key, value);
+	}
+
   function increment(key, amount) {
     validate.string(
       key,
@@ -31,6 +35,7 @@ function MemoryCache () {
 
   return Object.freeze({
     get: get,
+		set: set,
     increment,
     flushAll
   });
