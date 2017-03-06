@@ -1,9 +1,9 @@
 
-function RequestMonitor(cache, store) {
+function RequestMonitor(cache, queue, store) {
 
   async function registerIncomingRequest(url, params, time) {
     const request = await store.getSchema('Request');
-    await cache.increment('totalIncomingRequests', 1);
+    queue.publish('requests', 'recalculateStats');
     await request.query(
       `mutation Mutation($url: String!) {
         registerRequest(url: $url) {
@@ -26,24 +26,13 @@ function RequestMonitor(cache, store) {
     }
   }
 
-  async function recalculate() {
-    await cache.flushAll();
-    const requests = await getRequests();
-    await Promise.all(
-      requests.map(async () => {
-        await cache.increment('totalIncomingRequests', 1);
-      })
-    );
-  }
-
   return Object.freeze({
     registerIncomingRequest,
     getStatistics,
-    getRequests,
-    recalculate
+    getRequests
   });
 }
 
-RequestMonitor.deps = ['cache', 'store'];
+RequestMonitor.deps = ['cache', 'queue', 'store'];
 
 module.exports = RequestMonitor;
