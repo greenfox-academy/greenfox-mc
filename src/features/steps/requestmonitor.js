@@ -9,8 +9,8 @@ export default function () {
   });
 
   this.When('the system recalculate the requests', async function () {
-    const monitor = this.container.get('requestmonitor');
-    await monitor.recalculate();
+    const calculator = this.container.get('statscalculator');
+    await calculator.recalculateRequests();
   });
 
   this.Then('I see "$value" for "$key" in the statistics', async function(value, key) {
@@ -20,8 +20,8 @@ export default function () {
   });
 
   this.Then('I see "$value" request in the database', async function(value) {
-    const monitor = this.container.get('requestmonitor');
-    const result = await monitor.getRequests();
+    const calculator = this.container.get('statscalculator');
+    const result = await calculator.getRequests();
     expect(result.length).to.eql(parseInt(value));
   });
 
