@@ -1,13 +1,15 @@
 
 function Stats(cache, requestMonitor, queue) {
 
-  queue.consume('stats', (message) => {
-    if (message === 'registerIncomingRequest') {
-      registerIncomingRequest();
-    } else {
-      throw new Error('unknown message');
-    }
-  });
+  function listen() {
+    queue.consume('stats', (message) => {
+      if (message === 'registerIncomingRequest') {
+        registerIncomingRequest();
+      } else {
+        throw new Error('unknown message');
+      }
+    });
+  }
 
   async function registerIncomingRequest() {
     await cache.increment('totalIncomingRequests', 1);
@@ -30,6 +32,7 @@ function Stats(cache, requestMonitor, queue) {
   }
 
   return Object.freeze({
+    listen,
     registerIncomingRequest,
     getStatistics,
     recalculate
