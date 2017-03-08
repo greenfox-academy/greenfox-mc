@@ -1,9 +1,8 @@
 
-function RequestMonitor(store) {
+function RequestMonitor(store, queue) {
 
   async function registerIncomingRequest(url, params, time) {
     const request = await store.getSchema('Request');
-    // TODO: Publish message. 
     await request.query(
       `mutation Mutation($url: String!) {
         registerRequest(url: $url) {
@@ -12,6 +11,8 @@ function RequestMonitor(store) {
       }`,
       {url}
     );
+
+    queue.publish('stats', 'registerIncomingRequest');
   }
 
   async function getRequests() {
@@ -26,6 +27,6 @@ function RequestMonitor(store) {
   });
 }
 
-RequestMonitor.deps = ['store'];
+RequestMonitor.deps = ['store', 'queue'];
 
 module.exports = RequestMonitor;
