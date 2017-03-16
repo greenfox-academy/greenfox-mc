@@ -17,16 +17,24 @@ function waitForElement(element, selector, callback, timeout) {
 
 async function getConsumePromise(queue, queueName, customMessageHandler) {
   return new Promise((resolve, reject) => {
+
     let messageCount = 0;
     const messageHandler = async (message) => {
-      await customMessageHandler(message);
-      messageCount += 1;
-      const size = await queue.getMessageCount(queueName);
-      if (size === 0) {
-        resolve(messageCount);
+      try {
+        await customMessageHandler(message);
+        messageCount += 1;
+        const size = await queue.getMessageCount(queueName);
+        if (size === 0) {
+          resolve(messageCount);
+        }
+
+      } catch(e) {
+        reject(e);
       }
     }
-    queue.consume(queueName, messageHandler);
+    queue.consume(queueName, messageHandler).catch((e) => {
+      reject(e);
+    });
   });
 }
 
