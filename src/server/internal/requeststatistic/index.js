@@ -3,11 +3,13 @@ function RequestStatistic(cache, queue, requestmonitor) {
 
   async function processMessage(message) {
     await cache.increment('totalIncomingRequests', 1);
+    await queue.publish('securitycheck', message);
   }
 
   async function getStatistics() {
     return {
-      totalIncomingRequests: await cache.get('totalIncomingRequests')
+      totalIncomingRequests: await cache.get('totalIncomingRequests'),
+      securityIssue: await cache.get('securityIssue')
     }
   }
 
