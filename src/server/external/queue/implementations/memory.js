@@ -7,8 +7,11 @@ import VError from 'verror';
 function MemoryQueue () {
   let queue = {};
 
-  function consume(queueName, callback) {
+  async function consume(queueName, callback) {
     async function handleMessages() {
+      if (!_.get(queue, queueName)) {
+        throw new VError(`Queue does not exist: ${queueName}`);
+      }
       const message = queue[queueName].shift();
       if (!message) {
         return false;
@@ -16,7 +19,7 @@ function MemoryQueue () {
       await callback(message);
       handleMessages();
     }
-    process.nextTick(()=>handleMessages(queueName, callback));
+    await handleMessages(queueName, callback)
     return true;
   }
 
