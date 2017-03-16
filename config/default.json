@@ -1,0 +1,8 @@
+{
+  "cache": "redis",
+  "mongo": {
+    "type": "mongoose",
+    "url": "mongodb://localhost:27017/test"
+  },
+  "queue": "amqp"
+}
