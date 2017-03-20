@@ -17,8 +17,8 @@ function RequestStatistic(cache, queue, requestmonitor) {
     await cache.flushAll();
     const requests = await requestmonitor.getRequests();
     await Promise.all(
-      requests.map(async () => {
-        await processMessage();
+      requests.map(async (request) => {
+        await processMessage(request.url);
       })
     );
   }
