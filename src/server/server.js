@@ -18,6 +18,12 @@ app.use(async (req, res, next) => {
   }
 );
 
+app.use('/requests', async (req, res, next) => {
+  const monitor = container.get('requestmonitor');
+  const result = await monitor.getRequests();
+  res.send(result);
+});
+
 app.use('/stats', async (req, res, next) => {
   const requestStatistic = container.get('requeststatistic');
   const result = await requestStatistic.getStatistics()
