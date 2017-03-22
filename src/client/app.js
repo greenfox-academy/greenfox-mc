@@ -13,7 +13,7 @@ import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux'
 
 injectTapEventPlugin();
 
-function App(Root, StoreService, History) {
+function App(Root, Admin, StoreService, History) {
   const customHistory = History.getHistory();
   const middleware = [ thunk, routerMiddleware(customHistory) ]
   const store = createStore(StoreService, applyMiddleware(...middleware));
@@ -24,11 +24,12 @@ function App(Root, StoreService, History) {
       <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
         <Router history={history}>
           <Route path="/" component={Root} />
+          <Route path="/admin" component={Admin} />
         </Router>
       </MuiThemeProvider>
     </Provider>
   )
 }
 
-App.deps = ['Root', 'Store', 'History'];
+App.deps = ['Root', 'Admin', 'Store', 'History'];
 module.exports = App;
