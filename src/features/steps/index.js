@@ -21,7 +21,7 @@ export default function() {
     assert.include(
       strings,
       text,
-      `Could not find the text "${text}" on the page (${this.context.currentPage})`
+      `Could not find the text "${text}" on the page (${strings})`
     );
     callback();
   });
