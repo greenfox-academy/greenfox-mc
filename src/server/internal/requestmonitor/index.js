@@ -1,31 +1,9 @@
+'use strict';
 
-function RequestMonitor(store, queue) {
-
-  async function registerIncomingRequest(url, params, time) {
-    const request = await store.getSchema('Request');
-    await request.query(
-      `mutation Mutation($url: String!) {
-        registerRequest(url: $url) {
-          message
-        }
-      }`,
-      {url}
-    );
-    await queue.publish('request-statistic', url);
-  }
-
-  async function getRequests() {
-    const request = await store.getSchema('Request');
-    const result = await request.query(`query{request{url}}`);
-    return result.data.request;
-  }
-
-  return Object.freeze({
-    registerIncomingRequest,
-    getRequests
-  });
+function RequestMonitor(container) {
+  const implementation = container.get('config').get(RequestMonitor.serviceName, 'http');
+  return container.getImplementation(RequestMonitor.serviceName, implementation);
 }
 
-RequestMonitor.deps = ['store', 'queue'];
-
+RequestMonitor.type = 'factory';
 module.exports = RequestMonitor;

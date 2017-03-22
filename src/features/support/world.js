@@ -25,6 +25,7 @@ function setupConfig(config) {
     url: 'mongodb://localhost:27017/test'
   });
   config.update('queue', 'memory');
+  config.update('requestmonitor', 'internal');
 }
 
 function extendContainer() {

@@ -4,5 +4,6 @@
     "type": "mongoose",
     "url": "mongodb://localhost:27017/test"
   },
-  "queue": "amqp"
+  "queue": "amqp",
+  "requestmonitor": "internal"
 }
