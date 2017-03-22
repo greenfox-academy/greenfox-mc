@@ -4,5 +4,5 @@ Feature: Index page
   the welcome page
 
   Scenario: I check the index page
-  When I open the site
+  When I open the page "/"
   Then I see the "Welcome" text on the page

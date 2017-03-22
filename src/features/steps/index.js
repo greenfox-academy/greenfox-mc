@@ -6,8 +6,11 @@ import { assert } from 'chai';
 import { mount } from 'enzyme';
 
 export default function() {
-  this.When('I open the site', function(callback) {
+
+  this.When('I open the page "$page"', function(page, callback) {
     const App = this.container.get('App');
+    const History = this.container.get('History');
+    History.push(`${page}`);
     this.context.currentPage = mount(App);
     this.context.store = this.context.currentPage.node.store;
     callback();
