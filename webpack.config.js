@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const DIST_DIR = path.resolve(__dirname, 'dist');
 const APP_DIR = path.resolve(__dirname, 'src/client');
+const SRC_DIR = path.resolve(__dirname, 'src/');
 const PUBLIC_DIR = path.resolve(APP_DIR, 'public');
 const CLIENT_PUBLIC_DIR = path.resolve(DIST_DIR, 'public');
 const CLIENT_DIST_DIR = path.resolve(CLIENT_PUBLIC_DIR, 'dist');
@@ -24,7 +25,7 @@ const client = {
   module: {
     loaders: [{
       test: /\.js?/,
-      include: APP_DIR,
+      include: SRC_DIR,
       loaders: ['babel', 'eslint']
     },{
       test: /\.scss$/,
