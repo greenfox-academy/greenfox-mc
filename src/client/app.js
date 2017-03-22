@@ -4,7 +4,7 @@ import React from 'react';
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import { Router, Route, createMemoryHistory } from 'react-router';
+import { Router, Route } from 'react-router';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -13,23 +13,22 @@ import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux'
 
 injectTapEventPlugin();
 
-function App(Root, StoreService) {
-  const memoryHistory = createMemoryHistory()
-  const middleware = [ thunk, routerMiddleware(memoryHistory) ]
+function App(Root, StoreService, History) {
+  const customHistory = History.getHistory();
+  const middleware = [ thunk, routerMiddleware(customHistory) ]
   const store = createStore(StoreService, applyMiddleware(...middleware));
-  const history = syncHistoryWithStore(memoryHistory, store)
+  const history = syncHistoryWithStore(customHistory, store)
 
   return (
     <Provider store={store}>
       <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
         <Router history={history}>
-          <Route path="/" component={Root} >
-          </Route>
+          <Route path="/" component={Root} />
         </Router>
       </MuiThemeProvider>
     </Provider>
   )
 }
 
-App.deps = ['Root', 'Store'];
+App.deps = ['Root', 'Store', 'History'];
 module.exports = App;
