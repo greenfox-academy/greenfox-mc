@@ -13,4 +13,9 @@ export default function () {
     const result = await cache.get(key);
     expect(result).to.eql(parseInt(value));
   });
+
+	this.When('I set key "$key" with value "$value"', async function (key, value) {
+    const cache = this.container.get('cache');
+    await cache.set(key, parseInt(value));
+  });
 }

@@ -21,4 +21,14 @@ describe('Memory cache', () => {
     expect(increment).to.throw(/You have to use/);
   });
 
+	it('should set an item in cache', () => {
+    cache.set('foo', 5);
+    expect(cache.get('foo')).to.eql(5);
+  });
+
+	it('should overwrite an already existing key', () => {
+		cache.set('foo', 1);
+		expect(cache.get('foo')).to.eql(1);
+	});
+
 });
