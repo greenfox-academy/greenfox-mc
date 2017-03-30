@@ -26,6 +26,7 @@ function setupConfig(config) {
   });
   config.update('queue', 'memory');
   config.update('requestmonitor', 'internal');
+  config.update('blog', 'api');
 }
 
 function extendContainer() {
