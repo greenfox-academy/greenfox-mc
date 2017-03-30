@@ -23,7 +23,7 @@ export default function () {
   this.Then('I see "$value" for "$key" in the statistics', async function(value, key) {
     const requestStatistic = this.container.get('requeststatistic');
     const result = await requestStatistic.getStatistics();
-    expect(result[key]).to.eql(parseInt(value));
+    expect(result[key].toString()).to.eql(value);
   });
 
  }

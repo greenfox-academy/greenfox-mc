@@ -7,8 +7,11 @@ function RedisCache() {
   const redis = new Redis();
 
   async function get(key, defaultValue) {
-    const result = await redis.get(key);
-    return parseInt(result);
+    return await redis.get(key);
+  }
+
+  async function set(key, value) {
+    return await redis.set(key, value);
   }
 
   async function increment(key, amount) {
@@ -31,6 +34,7 @@ function RedisCache() {
 
   return Object.freeze({
     get: get,
+    set,
     increment,
     flushAll
   });
