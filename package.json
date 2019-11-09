@@ -78,7 +78,7 @@
     "ioredis": "2.5.0",
     "lab-config": "1.0.0",
     "lab-di": "1.1.6",
-    "lodash": "4.16.6",
+    "lodash": "4.17.15",
     "material-ui": "0.16.4",
     "moment": "2.16.0",
     "mongoose": "4.8.4",
