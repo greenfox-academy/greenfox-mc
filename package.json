@@ -81,7 +81,7 @@
     "lodash": "4.16.6",
     "material-ui": "0.16.4",
     "moment": "2.16.0",
-    "mongoose": "4.8.4",
+    "mongoose": "5.7.9",
     "react": "15.4.0",
     "react-dom": "15.4.0",
     "react-layout-components": "3.0.4",
